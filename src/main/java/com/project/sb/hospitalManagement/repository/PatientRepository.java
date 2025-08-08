@@ -3,6 +3,8 @@ package com.project.sb.hospitalManagement.repository;
 import com.project.sb.hospitalManagement.entity.Patient;
 import com.project.sb.hospitalManagement.entity.type.BloodGroupType;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,7 +33,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     List<Object[]> countEachBloodGroupType(@Param("bloodGroup")BloodGroupType bloodGroupType);
 
     @Query(value = "select * from patient", nativeQuery = true)
-    List<Patient> findAllPatient();
+    Page<Patient> findAllPatients(Pageable pageable);
 
     @Transactional
     @Modifying
