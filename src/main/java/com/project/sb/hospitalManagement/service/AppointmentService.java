@@ -74,4 +74,12 @@ public class AppointmentService {
                 .map(appointment -> modelMapper.map(appointment, AppointmentResponseDto.class))
                 .collect(Collectors.toList());
     }
+
+    @PreAuthorize("hasRole('ADMIN') OR #patientId == authentication.principal.id")
+    public List<AppointmentResponseDto> getAllAppointmentsOfPatient(Long patientId) {
+        return appointmentRepository.findByPatient_IdOrderByAppointmentTimeDesc(patientId)
+                .stream()
+                .map(appointment -> modelMapper.map(appointment, AppointmentResponseDto.class))
+                .collect(Collectors.toList());
+    }
 }
